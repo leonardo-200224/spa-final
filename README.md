@@ -244,7 +244,6 @@ El cache sobrevive mientras la pestaña esté abierta, pero se reinicia al recar
 - **JavaScript ES2020+** — Módulos nativos (`import/export`), `async/await`, `fetch`, `localStorage`
 - **Rick and Morty API** — https://rickandmortyapi.com/documentation
 
-> No se usaron frameworks, librerías de UI ni herramientas de build.
 
 ---
 
