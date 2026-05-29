@@ -20,7 +20,7 @@
 import { saveCustomCharacter, updateCustomCharacter, saveEdit } from '../services/storage.js';
 import { generateId, showToast } from '../utils/helpers.js';
 
-// ── Referencias al DOM ────────────────────────────────────────────────────────
+//  Referencias al DOM 
 const modal        = document.getElementById('modal');
 const modalTitle   = document.getElementById('modal-title');
 const modalClose   = document.getElementById('modal-close');
@@ -39,13 +39,13 @@ const fields = {
   image:   () => document.getElementById('input-image'),
 };
 
-// ── Estado interno del modal ──────────────────────────────────────────────────
+// Estado interno del modal 
 let _mode     = 'create'; // 'create' | 'edit'
 let _editId   = null;     // ID del personaje que se está editando
 let _isCustom = false;    // true si el personaje editado es ficticio (local_...)
 let _onSaved  = null;     // Callback a ejecutar tras guardar con éxito
 
-// ── Funciones internas ────────────────────────────────────────────────────────
+//  Funciones internas 
 
 function openModal()  { modal.classList.remove('hidden'); }
 
@@ -92,7 +92,7 @@ function showErrors(errors) {
   formErrors.innerHTML = `<ul>${errors.map(e => `<li>${e}</li>`).join('')}</ul>`;
 }
 
-// ── API pública del componente ────────────────────────────────────────────────
+// API pública del componente 
 
 /**
  * Abre el modal en modo "Crear personaje".
@@ -132,8 +132,7 @@ export function openEditModal(character, onSaved) {
   openModal();
 }
 
-// ── Handlers de eventos ───────────────────────────────────────────────────────
-
+//  Handlers de eventos 
 btnSave.addEventListener('click', () => {
   const errors = validate();
   if (errors.length) { showErrors(errors); return; }

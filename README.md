@@ -21,18 +21,18 @@ Una Single Page Application (SPA) construida en **JavaScript Vanilla puro** que 
 
 ##  Características
 
-| Requerimiento | Estado |
+| Requerimiento |  |
 |---|---|
-| Página de Personajes (nombre, especie, género, estado) | ✅ |
-| Página de Episodios (nombre, fecha, cantidad personajes) | ✅ |
-| Página de Ubicaciones (nombre, tipo, dimensión, residentes) | ✅ |
-| Navegación SPA sin recarga de página | ✅ |
-| Crear personaje ficticio con formulario | ✅ |
-| Eliminar personaje con confirmación | ✅ |
-| Editar personaje (nombre, especie, estado) | ✅ |
-| Manejo de errores: imágenes rotas, API, formularios | ✅ |
-| Feedback al usuario (toast de éxito/error) | ✅ |
-| Persistencia en localStorage | ✅ |
+| Página de Personajes (nombre, especie, género, estado) 
+| Página de Episodios (nombre, fecha, cantidad personajes) 
+| Página de Ubicaciones (nombre, tipo, dimensión, residentes) 
+| Navegación SPA sin recarga de página 
+| Crear personaje ficticio con formulario 
+| Eliminar personaje con confirmación 
+| Editar personaje (nombre, especie, estado) 
+| Manejo de errores: imágenes rotas, API, formularios 
+| Feedback al usuario (toast de éxito/error) 
+| Persistencia en localStorage 
 
 ---
 
@@ -177,12 +177,6 @@ El enlace activo se marca visualmente en la navbar.
 | URL de imagen inválida | Error de validación en el formulario |
 | Ruta desconocida | Redirección automática a `#/personajes` |
 
-### Feedback al Usuario
-
-Todas las acciones importantes muestran un **toast** en la esquina inferior derecha:
-- ✅ Verde: creación, edición, eliminación exitosa
-- ❌ Rojo: errores
-- ℹ️ Verde claro: información general
 
 ---
 
@@ -255,9 +249,10 @@ El cache sobrevive mientras la pestaña esté abierta, pero se reinicia al recar
 ---
 
 ##  Equipo
-
-Desarrollado para **RIWI · Interdimensional Frontend Labs**  
 Taller Práctico S4 — Evolución de una SPA Vanilla JS
+- Leonardo ivan ayala perez
+- Daniel David Martinez Gonzalez
+- Johan Elias Hernandez Navarro
 
 ---
-<img src="img.png"  />
+<img src="S.P.A.drawio.png"  />

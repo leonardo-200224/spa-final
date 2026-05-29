@@ -72,7 +72,7 @@ export async function renderCharactersPage(container) {
   _gridEl          = container.querySelector('#characters-grid');
 
   try {
-    // ── Fase 1: primera página (rápida) ──────────────────────────────────
+    //  Fase 1: primera página (rápida) 
     const firstBatch = _apiCache ?? await getCharacters();
     stateEl.remove();
 
@@ -80,7 +80,7 @@ export async function renderCharactersPage(container) {
     renderNextPage();
     updateCounter(counterEl, _shownCount, _apiCache ? _apiCache.length : '826+');
 
-    // ── Fase 2: resto en background ───────────────────────────────────────
+    // Fase 2: resto en background 
     if (!_apiCache) {
       getAllCharacters()
         .then(all => {
@@ -104,7 +104,7 @@ export async function renderCharactersPage(container) {
       }
     }
 
-    // ── Botón "Ver más" ───────────────────────────────────────────────────
+    //  Botón "Ver más" 
     container.querySelector('#btn-load-more').addEventListener('click', () => {
       renderNextPage();
       const remaining = _allMerged.length - _shownCount;
@@ -143,7 +143,7 @@ function updateCounter(el, shown, total) {
   if (el) el.textContent = `${shown} / ${total}`;
 }
 
-// ── Construcción de tarjeta ───────────────────────────────────────────────────
+//  Construcción de tarjeta 
 
 function buildCard(character) {
   const isCustom  = !!character.isCustom;
@@ -177,7 +177,7 @@ function buildCard(character) {
     </div>
   `;
 
-  // ── Imagen rota: intenta .png antes de mostrar placeholder ───────────────
+  // Imagen rota: intenta .png antes de mostrar placeholder 
   const img = article.querySelector('img');
   if (img) {
     img.addEventListener('error', () => {
@@ -191,12 +191,12 @@ function buildCard(character) {
     }, { once: true });
   }
 
-  // ── Editar ───────────────────────────────────────────────────────────────
+  //  Editar 
   article.querySelector('[data-action="edit"]').addEventListener('click', () => {
     openEditModal(character, updated => refreshCard(article, { ...character, ...updated }));
   });
 
-  // ── Eliminar ─────────────────────────────────────────────────────────────
+  // Eliminar 
   article.querySelector('[data-action="delete"]').addEventListener('click', () => {
     if (!confirmAction(`¿Eliminar a "${character.name}"?`)) return;
 

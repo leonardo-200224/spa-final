@@ -18,7 +18,7 @@ const KEYS = {
   DELETED: 'rm_deleted_characters',
 };
 
-// ── Personajes ficticios (creados por el usuario) ─────────────────────────────
+//  Personajes ficticios (creados por el usuario) 
 
 /**
  * Retorna la lista de personajes ficticios guardados localmente.
@@ -64,7 +64,7 @@ export function deleteCustomCharacter(id) {
   localStorage.setItem(KEYS.CUSTOM, JSON.stringify(list));
 }
 
-// ── Ediciones sobre personajes de la API (guardamos delta, no el original) ────
+//  Ediciones sobre personajes de la API (guardamos delta, no el original) 
 
 /**
  * Retorna el mapa de ediciones { [id]: { nombre, especie, estado } }.

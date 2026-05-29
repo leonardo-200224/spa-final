@@ -1,6 +1,6 @@
-/* ============================================================
+/* 
    styles.css — Rick & Morty SPA
-   Sistema de diseño oscuro, profesional.
+   Sistema de diseño oscuro.
    1.  Reset & tokens
    2.  Base
    3.  Navbar
@@ -17,9 +17,9 @@
    14. Estados: loading · error · empty
    15. Paginación
    16. Animaciones & responsive
-   ============================================================ */
+*/
 
-/* ── 1. Reset & tokens ──────────────────────────────────────── */
+/* 1. Reset & tokens */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -58,7 +58,7 @@
   --shadow-lg:  0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
-/* ── 2. Base ─────────────────────────────────────────────────── */
+/* 2. Base  */
 html { scroll-behavior: smooth; }
 
 body {
@@ -70,7 +70,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── 3. Navbar ───────────────────────────────────────────────── */
+/* 3. Navbar */
 .navbar {
   position: sticky;
   top: 0;
@@ -135,14 +135,14 @@ body {
   margin-left: 1.5rem;
 }
 
-/* ── 4. Layout ───────────────────────────────────────────────── */
+/* 4. Layout*/
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2.5rem 2rem;
 }
 
-/* ── 5. Page header ──────────────────────────────────────────── */
+/* 5. Page header  */
 .page-header {
   display: flex;
   align-items: flex-end;
@@ -179,7 +179,7 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* ── 6. Grids ────────────────────────────────────────────────── */
+/*  6. Grids*/
 .grid-characters {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
@@ -192,7 +192,7 @@ body {
   gap: 1rem;
 }
 
-/* ── 7. Tarjeta personaje ────────────────────────────────────── */
+/* 7. Tarjeta personaje */
 .card-character {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -311,7 +311,7 @@ body {
 .status-dot--dead    { background: var(--dead); }
 .status-dot--unknown { background: var(--unknown); }
 
-/* ── 8. Placeholder de imagen ────────────────────────────────── */
+/* 8. Placeholder de imagen */
 .img-placeholder {
   width: 100%;
   height: 100%;
@@ -355,7 +355,7 @@ body {
   text-transform: uppercase;
 }
 
-/* ── 9. Tarjeta episodio / ubicación ─────────────────────────── */
+/* 9. Tarjeta episodio / ubicación */
 .card-item {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -421,7 +421,7 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* ── 10. Botones ─────────────────────────────────────────────── */
+/* 10. Botones */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -510,7 +510,7 @@ body {
 .btn--sm  { padding: 0.28rem 0.65rem; font-size: 0.74rem; flex: 1; }
 .btn--lg  { padding: 0.65rem 2rem; font-size: 0.9rem; }
 
-/* ── 11. Modal ───────────────────────────────────────────────── */
+/*11. Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -569,7 +569,7 @@ body {
   padding-right: 2rem;
 }
 
-/* ── 12. Formulario ──────────────────────────────────────────── */
+/* 12. Formulario  */
 .form-group { margin-bottom: 1.1rem; }
 
 .form-group label {
@@ -631,7 +631,7 @@ body {
 .form-errors ul { padding-left: 1.1rem; }
 .form-errors li { margin-bottom: 0.2rem; }
 
-/* ── 13. Toast ───────────────────────────────────────────────── */
+/*13. Toast */
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -661,7 +661,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── 14. Estados ─────────────────────────────────────────────── */
+/* 14. Estados  */
 .state-loading,
 .state-error,
 .state-empty {
@@ -687,7 +687,7 @@ body {
 
 .state-error { color: var(--danger); }
 
-/* ── 15. Paginación ──────────────────────────────────────────── */
+/* 15. Paginación  */
 .load-more-wrap {
   display: flex;
   flex-direction: column;
@@ -703,7 +703,7 @@ body {
   color: var(--text-faint);
 }
 
-/* ── 16. Animaciones & responsive ───────────────────────────── */
+/* 16. Animaciones & responsive */
 @keyframes spin   { to { transform: rotate(360deg); } }
 
 @keyframes fade-up {

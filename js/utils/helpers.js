@@ -5,8 +5,7 @@
  * manejo de imágenes rotas y marcado de enlace activo en la navbar.
  */
 
-// ── Toast de feedback ─────────────────────────────────────────────────────────
-
+//  Toast de feedback 
 let toastTimer = null;
 
 /**
@@ -26,7 +25,7 @@ export function showToast(message, type = 'info') {
   }, 3200);
 }
 
-// ── Confirm personalizado (usa window.confirm nativo, sin reload) ─────────────
+// Confirm personalizado (usa window.confirm nativo, sin reload) 
 
 /**
  * Muestra un diálogo de confirmación nativo.
@@ -37,8 +36,7 @@ export function confirmAction(message) {
   return window.confirm(message);
 }
 
-// ── ID único para personajes ficticios ────────────────────────────────────────
-
+//  ID único para personajes ficticios 
 /**
  * Genera un ID único con prefijo 'local_' para identificar personajes ficticios.
  * @returns {string}
@@ -47,7 +45,7 @@ export function generateId() {
   return `local_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 }
 
-// ── Placeholder imagen rota ───────────────────────────────────────────────────
+//  Placeholder imagen rota
 
 /**
  * Reemplaza una imagen rota con un placeholder de texto "Sin imagen".
@@ -65,7 +63,7 @@ export function handleImgError(img) {
   }
 }
 
-// ── Marcar enlace activo en la navbar ─────────────────────────────────────────
+//  Marcar enlace activo en la navbar 
 
 /**
  * Marca como activo el enlace de la navbar que coincide con el hash actual.
