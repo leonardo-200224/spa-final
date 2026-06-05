@@ -1104,4 +1104,210 @@ export const homeController = async () => {
 | `src/controllers/home.controller.js` | Reemplazar |
 | `db.json` | Reemplazar |
 
-Con esto cubres: autenticación persistente, guards/protección de rutas, roles, CRUD de reservas, panel admin con aprobar/rechazar/eliminar, y el usuario viendo solo sus reservas con opción de cancelar. ¿Quieres que también te genere el README.md completo en inglés que pide el PDF?
+Con esto cubres: autenticación persistente, guards/protección de rutas, roles, CRUD de reservas, panel admin con aprobar/rechazar/eliminar, y el usuario viendo solo sus reservas con opción de cancelar. ¿Quieres que también te genere el README.md completo en inglés que pide el PDF.     
+
+
+
+
+
+# SpaceBook — Workspace Reservation SPA
+
+## Description
+
+SpaceBook is a **Single Page Application (SPA)** built with **Vanilla JavaScript + Vite** that allows company employees to reserve shared workspaces (private offices, meeting rooms, coworking spaces, and auditoriums). Administrators can manage all reservations, approve or reject them, and have full CRUD control over the system.
+
+The application implements authentication, role-based access control, session persistence, SPA routing via the History API, and full CRUD operations against a simulated REST API powered by `json-server`.
+
+---
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Vite 8 | Build tool and dev server |
+| Vanilla JavaScript (ES Modules) | Application logic |
+| TailwindCSS 4 | Styling |
+| json-server | Simulated REST API |
+| localStorage | Session persistence |
+| History API (`pushState`) | SPA routing |
+| Fetch API | HTTP requests |
+| concurrently | Run Vite + json-server simultaneously |
+
+---
+
+## Installation
+
+> Make sure you have **Node.js v18+** installed.
+
+```bash
+# 1. Clone or unzip the project
+cd PerformanceTestJS-PDM3-C5
+
+# 2. Install dependencies
+npm install
+```
+
+---
+
+## Running the Project
+
+The following command starts both the Vite dev server and json-server at the same time:
+
+```bash
+npm run dev
+```
+
+- **App:** [http://localhost:5173](http://localhost:5173)
+- **API (json-server):** [http://localhost:3001](http://localhost:3001)
+
+---
+
+## Running json-server (standalone)
+
+If you want to run only the API:
+
+```bash
+npx json-server --watch db.json --port 3001
+```
+
+Available endpoints:
+
+```
+GET    /users
+GET    /reservations
+POST   /reservations
+PATCH  /reservations/:id
+DELETE /reservations/:id
+```
+
+---
+
+## Test Users
+
+| Name | Email | Password | Role |
+|---|---|---|---|
+| Administrador | admin@test.com | Admin123* | admin |
+| Usuario | user@test.com | User123* | user |
+| Usuario 2 | user2@test.com | User123* | user |
+
+---
+
+## Project Structure
+
+```
+src/
+├── api/
+│   └── http.js                    # Generic Fetch wrapper (GET, POST, PUT, PATCH, DELETE)
+├── assets/                        # Static assets
+├── components/
+│   ├── ReservationCard.js         # Reservation card component + cancel event
+│   └── Sidebar.js                 # Navigation sidebar with role-aware links + logout
+├── controllers/
+│   ├── admin.controller.js        # Admin: list all reservations, approve/reject/delete
+│   ├── home.controller.js         # Home: load and filter reservations by role
+│   ├── login.controller.js        # Login: validate credentials, save session
+│   └── newReservation.controller.js # Form: validate and create new reservation
+├── router/
+│   └── router.js                  # SPA router with auth + role guards
+├── services/
+│   └── reservation.service.js     # CRUD operations for /reservations endpoint
+├── utils.js                       # Session helpers (save, get, remove, isAuthenticated, isAdmin)
+├── views/
+│   ├── adminView.js               # Admin panel view
+│   ├── homeView.js                # Home / dashboard view
+│   ├── loginView.js               # Login form view
+│   ├── newReservationView.js      # New reservation form view
+│   └── notFound.js                # 404 view
+├── main.js                        # Entry point
+└── style.css                      # Tailwind base import
+db.json                            # json-server database (users + reservations)
+index.html                         # Single HTML shell
+vite.config.js                     # Vite + TailwindCSS + path aliases
+```
+
+---
+
+## Role Permissions
+
+### Admin (`role: "admin"`)
+
+| Action | Allowed |
+|---|---|
+| View all reservations | ✅ |
+| Create reservations | ✅ |
+| Edit any reservation | ✅ |
+| Delete any reservation | ✅ |
+| Approve reservations | ✅ |
+| Reject reservations | ✅ |
+| Access admin panel (`/admin`) | ✅ |
+
+### User (`role: "user"`)
+
+| Action | Allowed |
+|---|---|
+| View own reservations only | ✅ |
+| Create reservations | ✅ |
+| Cancel own reservations (pending or approved) | ✅ |
+| Edit pending reservations | ✅ |
+| View other users' reservations | ❌ |
+| Access admin panel | ❌ |
+| Approve / reject reservations | ❌ |
+
+---
+
+## Route Protection
+
+Routes are protected by guards implemented directly in `router.js`:
+
+| Condition | Behavior |
+|---|---|
+| Unauthenticated user accesses any protected route | Redirected to `/` (login) |
+| Authenticated user accesses `/` (login) | Redirected to `/home` |
+| `user` role accesses `/admin` | "Access Denied" message rendered |
+| Unknown route | 404 view rendered |
+
+---
+
+## Business Rules
+
+- A reservation **cannot be created** if another reservation already exists for the same workspace, date, and overlapping time slot (excluding `cancelled` and `rejected` statuses).
+- Users can only **modify or cancel pending** reservations.
+- **Approved** reservations can only be cancelled, not edited by a regular user.
+- Admins can modify or delete **any** reservation regardless of status.
+
+---
+
+## Technical Decisions
+
+### Why Vanilla JS instead of a framework?
+The assignment explicitly evaluates mastery of core JavaScript concepts: DOM manipulation, event handling, fetch, and modular architecture. Using a framework like React or Vue would hide these fundamentals.
+
+### Why History API instead of hash routing?
+`pushState`-based routing produces clean URLs (`/home`, `/admin`) and is closer to how real SPA frameworks (React Router, Vue Router) work internally. Hash routing (`#/home`) was avoided to demonstrate understanding of the History API.
+
+### Why localStorage for session?
+`localStorage` persists the session across browser tabs and page refreshes, which matches the expected behavior of a real authentication system. `sessionStorage` would clear on tab close, which was considered less appropriate for this use case.
+
+### Modular architecture
+The project follows a **MVC-inspired pattern**:
+- **Views** return HTML strings and schedule controller initialization with `setTimeout`.
+- **Controllers** attach event listeners and handle business logic after the DOM is ready.
+- **Services** are thin wrappers around the HTTP client — they know only about endpoints.
+- **Components** are pure functions that return HTML fragments (stateless, reusable).
+
+This separation makes each layer independently testable and easy to extend.
+
+### Why `setTimeout` in views?
+Views return HTML strings that are injected into `#app` via `innerHTML`. The DOM nodes don't exist until after assignment, so controllers must run in the next microtask tick. `setTimeout(() => controller(), 0)` is a deliberate pattern to ensure DOM availability without adding event listener overhead.
+
+---
+
+## Known Bugs Fixed from Base Project
+
+| Bug | Root Cause | Fix |
+|---|---|---|
+| `getReservations is not a function` | `reservation.service.js` exported `getReservation` (singular) but controller imported `getReservations` (plural) | Renamed export to `getReservations` |
+| Logout didn't clear session | `Sidebar.js` called `navigateTo("/")` but never called `removeSession()` | Added `removeSession()` before navigation |
+| No route guards | Router rendered any view regardless of authentication state | Added auth + role guards in `router.js` |
+| `@components` alias not used consistently | Some imports used `@/components`, others `@components` | Standardized to `@/components` throughout |
+
