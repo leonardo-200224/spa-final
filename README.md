@@ -255,3 +255,258 @@ Taller Práctico S4 — Evolución de una SPA Vanilla JS
 
 ---
 <img src="S.P.A.drawio.png"  />
+
+Revisando el proyecto encontré un error crítico que impide que la aplicación funcione, además de varios errores lógicos que pueden generar comportamientos inesperados.
+
+1. Error que rompe la aplicación
+
+src/services/reservation.service.js
+
+Tienes:
+
+export const getReservation = () =>
+  http.get("/reservations");
+
+Pero en home.controller.js importas:
+
+import { getReservations } from "@services/reservation.service";
+
+La función se llama getReservation (singular) y la estás importando como getReservations (plural).
+
+Solución
+
+import { http } from "@/api/http";
+
+export const getReservations = () =>
+  http.get("/reservations");
+
+export const createReservation = (data) =>
+  http.post("/reservations", data);
+
+
+---
+
+2. Error en el logout
+
+src/components/Sidebar.js
+
+Importas:
+
+import { removeSession } from "@/utils";
+
+Pero nunca la usas.
+
+Actualmente:
+
+document
+  .querySelector("#logoutBtn")
+  ?.addEventListener("click", () => {
+    navigateTo("/");
+  });
+
+El usuario sigue logueado porque la sesión nunca se elimina.
+
+Solución
+
+document
+  .querySelector("#logoutBtn")
+  ?.addEventListener("click", () => {
+    removeSession();
+    navigateTo("/");
+  });
+
+
+---
+
+3. Línea duplicada innecesaria
+
+home.controller.js
+
+Tienes:
+
+container.innerHTML = container.innerHTML = filteredReservations?.length
+
+Eso está duplicado.
+
+Solución
+
+container.innerHTML = filteredReservations?.length
+  ? filteredReservations
+      .map((reservation) => ReservationCard(reservation))
+      .join("")
+  : `
+      <div class="w-full text-center py-8 col-span-2">
+        <p class="text-slate-500">
+          No hay reservas disponibles
+        </p>
+      </div>
+    `;
+
+
+---
+
+4. Posible error cuando no existe sesión
+
+home.controller.js
+
+Actualmente:
+
+const user = getSession();
+
+const filteredReservations =
+  user.role === "admin"
+
+Si por alguna razón no existe sesión:
+
+user === null
+
+Obtendrás:
+
+Cannot read properties of null (reading 'role')
+
+Solución
+
+if (!user) return;
+
+o
+
+const filteredReservations =
+  user?.role === "admin"
+
+
+---
+
+5. El router no protege rutas
+
+Importas:
+
+import { isAuthenticated } from "@/utils";
+
+Pero nunca lo usas.
+
+Actualmente cualquier persona puede entrar directamente a:
+
+/home
+
+Solución
+
+Dentro de router():
+
+if (path === "/home" && !isAuthenticated()) {
+  navigateTo("/");
+  return;
+}
+
+
+---
+
+6. Falta evitar que un usuario autenticado vuelva al login
+
+Si ya inició sesión debería ir automáticamente a Home.
+
+if (path === "/" && isAuthenticated()) {
+  navigateTo("/home");
+  return;
+}
+
+
+---
+
+7. Vista 404 nunca utilizada
+
+Tienes:
+
+src/views/notFound.js
+
+pero el router nunca la usa.
+
+Actualmente:
+
+const view = routes[path] || loginView;
+
+Solución
+
+import NotFoundView from "@/views/notFound";
+
+const view = routes[path] || NotFoundView;
+
+
+---
+
+8. Botón de volver al inicio del 404 no funciona
+
+En notFound.js existe:
+
+<button id="goHome">
+
+pero no tiene evento.
+
+Puedes agregar:
+
+setTimeout(() => {
+  document
+    .querySelector("#goHome")
+    ?.addEventListener("click", () => {
+      history.pushState({}, "", "/");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    });
+});
+
+
+---
+
+9. Navegación SPA incompleta
+
+En el Sidebar tienes:
+
+<a href="/home" data-link>
+
+Pero no existe ningún listener para interceptar los enlaces y evitar que la página recargue.
+
+Agrega en main.js:
+
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("[data-link]");
+
+  if (!link) return;
+
+  e.preventDefault();
+
+  history.pushState({}, "", link.href);
+  router();
+});
+
+
+---
+
+Resumen
+
+Error que impide ejecutar
+
+✅ Corregir:
+
+getReservation
+
+por
+
+getReservations
+
+Errores lógicos
+
+✅ Eliminar sesión al cerrar sesión.
+
+✅ Corregir container.innerHTML = container.innerHTML =.
+
+✅ Validar sesión nula.
+
+✅ Proteger /home.
+
+✅ Redirigir usuarios logueados.
+
+✅ Implementar vista 404.
+
+✅ Activar botón del 404.
+
+✅ Interceptar enlaces SPA.
+
+El único error que probablemente te está dando un pantallazo blanco o error de compilación inmediato es el de getReservations, porque Vite no puede encontrar ese export.
